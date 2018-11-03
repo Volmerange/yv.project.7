@@ -1,0 +1,527 @@
+<html>
+<head>
+<style>
+#idBody{
+margin: 0;}
+#supportGlobal {
+margin: 0;
+width: 100%;
+height:100%;}
+#supportEntete {
+width: 100%;
+height: 15%;}
+#plateau{
+width: 100%;}
+.canvas{}
+#supportBouton{
+width: 100%;}
+</style>
+</head>
+<body id="idBody">
+<div id="supportGlobal">
+	<div id="supportEntete"> </div>
+	<div id="plateau" > </div>
+	<div id="supportBouton">
+		<input id="Reset" type="button" value="Reset"/>
+	</div>	
+</div>
+<script>
+var bod = document.getElementById( 'idBody' );
+var la = 0;
+var laEff = 1;
+var supGlo = document.getElementById( 'supportGlobal' );
+la = supGlo.offsetWidth;
+laEff = la - 0;
+var laR = 0;
+laR = ( laEff * 30 ) / 100;
+var plateau = document.getElementById( 'plateau' );
+	plateau.innerHTML = ' ';
+	plateau.style.height = 3.8 * laR;
+for ( var n = 0; n < 9; n++ ) {
+plateau.innerHTML += '<canvas style="background-color:rgba(221, 221, 221, 1); margin:2.5px"> </canvas>'}
+var trous = [];
+var trous = document.getElementsByTagName( 'canvas' );
+var marCa = 0;
+marCa = ( 0.1  * laEff ) / 6;
+for ( var p = 0; p < 9; p++ ) {
+var q = p + 1;
+trous[p].id = 'trou' + q;
+trous[p].width = laR;
+trous[p].height = laR;
+trous[p].style.margin = marCa;
+}
+var verif = 0;
+verif = 3 * laR + 6 * marCa;
+var laCan6Ver = 0;
+laCan6Ver = trous[6].width;
+//alert( 'laEff: ' + laEff + ' ;laR: ' + laR + ' ;laCan6Ver: ' + laCan6Ver + ' ;marCa: ' + marCa + ' ;verif: ' + verif)
+var etats = [];
+for ( j = 0; j < 9; j++ ) { etats.push( false )}
+var contexts = [];
+var deplacement = false;
+var compteur = 0;
+var n = " trou1 ";
+var m2;
+var xCir = 0;
+xCir = laR / 2;
+var yCir = 0;
+yCir = xCir;
+var rCir = 0;
+rCir = xCir / 1.8;
+for ( var i = 0; i < 9; i++ ) {
+contexts[i] = trous[i].getContext("2d");
+contexts[i].strokeStyle = "black";
+contexts[i].beginPath();
+contexts[i].arc(xCir ,yCir, rCir, 0, Math.PI*2);
+contexts[i].stroke()}
+
+var res = document.getElementById( 'Reset' );
+res.style.width = laR;
+res.style.fontSize = laR / 3;
+res.style.fontWeight = laR / 50;
+var laMid = la / 2;
+var maB = laMid - ( laR / 2 );
+res.style.marginLeft = maB;
+
+trous[0].addEventListener( 'click', function(e) { 		
+	
+	if ( (compteur < 6) && ( !deplacement ) ) {
+				if ( etats[0] ){
+						alert( 'ACTION IMPOSSIBLE' );
+						return false;
+				}
+	}
+	
+	if ( (compteur > 5) && ( !deplacement ) ) {
+				if ( compteur % 2 == 0 ) {
+						if ( (contexts[0].fillStyle === "rgba(255, 255, 255, 0.6)") || ( !etats[0] ) ) { 
+								alert( 'ACTION IMPOSSIBLE' );
+								return false;
+						}
+				} 	else {
+						if ( (contexts[0].fillStyle === "rgba(187, 255, 119, 0.6)") || ( !etats[0] ) ) {			
+								alert( 'ACTION IMPOSSIBLE' )
+								return false;
+						}
+					}
+		}
+		
+		if ( !etats[0] ) {					
+			if ( compteur % 2 == 0 ) {
+			contexts[0].fillStyle = " rgba(187, 255, 119, 0.6) "
+			} else { contexts[0].fillStyle = " rgba(255, 255, 255, 0.6) " }
+		contexts[0].fill();
+		etats[0] = true;
+		compteur ++;
+			if ( deplacement ) {							
+				contexts[ m2 ].fillStyle = " rgba(221, 221, 221, 1) ";
+				contexts[ m2 ].fill();
+				deplacement = false;
+			}
+		
+		} else {		
+		n = e.target.id
+		var m1 = n.substr( 4, 1 );
+		m2 = parseInt( m1 ) - 1;
+		etats[ m2 ] = false;
+		deplacement = true;			
+		}
+		}
+		);
+
+
+
+trous[1].addEventListener( 'click', function(e) {
+ 
+		if ( (compteur < 6) && ( !deplacement ) ) {
+				if ( etats[1] ){
+						alert( 'ACTION IMPOSSIBLE' );
+						return false;
+				}
+		}
+		
+		if ( ( compteur > 5 ) && ( !deplacement ) ) {
+				if ( compteur % 2 == 0 ) {
+						if ( (contexts[1].fillStyle === "rgba(255, 255, 255, 0.6)") || ( !etats[1] ) ) { 
+								alert( 'ACTION IMPOSSIBLE' );
+								return false;
+						}
+				} 	else {
+						if ( (contexts[1].fillStyle === "rgba(187, 255, 119, 0.6)") || ( !etats[1] ) ) {			
+								alert( 'ACTION IMPOSSIBLE' )
+								return false;
+						}
+					}
+		}
+		
+		if ( !etats[1] ) {		
+			if ( compteur % 2 == 0 ) {
+			contexts[1].fillStyle = " rgba(187, 255, 119, 0.6) "
+			} else { contexts[1].fillStyle = " rgba(255, 255, 255, 0.6) " }		
+		contexts[1].fill();
+		etats[1] = true;
+		compteur ++;		
+			if ( deplacement ) {			
+			contexts[ m2 ].fillStyle = " rgba(221, 221, 221, 1) ";
+			contexts[ m2 ].fill();
+			deplacement = false;
+			}			
+		} else {		
+		n = e.target.id		
+		var m1 = n.substr( 4, 1 );		
+		m2 = parseInt( m1 ) - 1;			
+		etats[ m2 ] = false;
+		deplacement = true;		
+		}
+		}
+		);
+
+
+
+trous[2].addEventListener( 'click', function(e) { 
+		
+		if ( (compteur < 6) && ( !deplacement ) ) {
+				if ( etats[2] ){
+						alert( 'ACTION IMPOSSIBLE' );
+						return false;
+				}
+		}
+		
+		if ( ( compteur > 5 ) && ( !deplacement ) ) {
+				if ( compteur % 2 == 0 ) {
+						if ( (contexts[2].fillStyle === "rgba(255, 255, 255, 0.6)") || ( !etats[2] ) ) { 
+								alert( 'ACTION IMPOSSIBLE' );
+								return false;
+						}
+				} 	else {
+						if ( (contexts[2].fillStyle === "rgba(187, 255, 119, 0.6)") || ( !etats[2] ) ) {			
+								alert( 'ACTION IMPOSSIBLE' )
+								return false;
+						}
+					}
+		}
+
+		if ( !etats[2] ) {				
+			if ( compteur % 2 == 0 ) {
+			contexts[2].fillStyle = " rgba(187, 255, 119, 0.6) "
+			} else { contexts[2].fillStyle = " rgba(255, 255, 255, 0.6) " }
+		contexts[2].fill();
+		etats[2] = true;
+		compteur ++;
+			if ( deplacement ) {			
+			contexts[ m2 ].fillStyle = " rgba(221, 221, 221, 1) ";
+			contexts[ m2 ].fill();
+			deplacement = false;
+			}		
+		} else {		
+		n = e.target.id
+		var m1 = n.substr( 4, 1 );
+		m2 = parseInt( m1 ) - 1;
+		etats[ m2 ] = false;
+		deplacement = true;		
+		}
+		}
+		);		
+		
+
+		
+trous[3].addEventListener( 'click', function(e) { 
+
+		if ( (compteur < 6) && ( !deplacement ) ) {
+				if ( etats[3] ){
+						alert( 'ACTION IMPOSSIBLE' );
+						return false;
+				}
+			}
+		
+		if ( ( compteur > 5 ) && ( !deplacement ) ) {
+				if ( compteur % 2 == 0 ) {
+						if ( (contexts[3].fillStyle === "rgba(255, 255, 255, 0.6)") || ( !etats[3] ) ) { 
+								alert( 'ACTION IMPOSSIBLE' );
+								return false;
+						}
+				} 	else {
+						if ( (contexts[3].fillStyle === "rgba(187, 255, 119, 0.6)") || ( !etats[3] ) ) {			
+								alert( 'ACTION IMPOSSIBLE' )
+								return false;
+						}
+					}
+		}
+
+		if ( !etats[3] ) {					
+			if ( compteur % 2 == 0 ) {
+			contexts[3].fillStyle = " rgba(187, 255, 119, 0.6) "
+			} else { contexts[3].fillStyle = " rgba(255, 255, 255, 0.6) " }
+		contexts[3].fill();
+		etats[3] = true;
+		compteur ++;
+			if ( deplacement ) {			
+				contexts[ m2 ].fillStyle = " rgba(221, 221, 221, 1) ";
+				contexts[ m2 ].fill();
+				deplacement = false;
+			}
+		
+		} else {		
+		n = e.target.id
+		var m1 = n.substr( 4, 1 );
+		m2 = parseInt( m1 ) - 1;
+		etats[ m2 ] = false;
+		deplacement = true;			
+		}
+		}
+		);
+
+		
+
+trous[4].addEventListener( 'click', function(e) { 
+
+	if ( (compteur < 6) && ( !deplacement ) ) {
+				if ( etats[4] ){
+						alert( 'ACTION IMPOSSIBLE' );
+						return false;
+				}
+	}
+
+	if ( ( compteur > 5 ) && ( !deplacement ) ) {
+				if ( compteur % 2 == 0 ) {
+						if ( (contexts[4].fillStyle === "rgba(255, 255, 255, 0.6)") || ( !etats[4] ) ) { 
+								alert( 'ACTION IMPOSSIBLE' );
+								return false;
+						}
+				} 	else {
+						if ( (contexts[4].fillStyle === "rgba(187, 255, 119, 0.6)") || ( !etats[4] ) ) {			
+								alert( 'ACTION IMPOSSIBLE' )
+								return false;
+						}
+					}
+		}
+
+		if ( !etats[4] ) {					
+			if ( compteur % 2 == 0 ) {
+			contexts[4].fillStyle = " rgba(187, 255, 119, 0.6) "
+			} else { contexts[4].fillStyle = " rgba(255, 255, 255, 0.6) " }
+		contexts[4].fill();
+		etats[4] = true;
+		compteur ++;
+			if ( deplacement ) {			
+				contexts[ m2 ].fillStyle = " rgba(221, 221, 221, 1) ";
+				contexts[ m2 ].fill();
+				deplacement = false;
+			}
+		
+		} else {		
+		n = e.target.id
+		var m1 = n.substr( 4, 1 );
+		m2 = parseInt( m1 ) - 1;
+		etats[ m2 ] = false;
+		deplacement = true;		
+		}
+		}
+		);
+
+
+trous[5].addEventListener( 'click', function(e) { 
+
+		if ( (compteur < 6) && ( !deplacement ) ) {
+				if ( etats[5] ){
+						alert( 'ACTION IMPOSSIBLE' );
+						return false;
+				}
+		}
+		
+		if ( ( compteur > 5 ) && ( !deplacement ) ) {
+				if ( compteur % 2 == 0 ) {
+						if ( (contexts[5].fillStyle === "rgba(255, 255, 255, 0.6)") || ( !etats[5] ) ) { 
+								alert( 'ACTION IMPOSSIBLE' );
+								return false;
+						}
+				} 	else {
+						if ( (contexts[5].fillStyle === "rgba(187, 255, 119, 0.6)") || ( !etats[5] ) ) {			
+								alert( 'ACTION IMPOSSIBLE' )
+								return false;
+						}
+					}
+		}
+
+		if ( !etats[5] ) {					
+			if ( compteur % 2 == 0 ) {
+			contexts[5].fillStyle = " rgba(187, 255, 119, 0.6) "
+			} else { contexts[5].fillStyle = " rgba(255, 255, 255, 0.6) " }
+		contexts[5].fill();
+		etats[5] = true;
+		compteur ++;
+			if ( deplacement ) {			
+				contexts[ m2 ].fillStyle = " rgba(221, 221, 221, 1) ";
+				contexts[ m2 ].fill();
+				deplacement = false;
+			}
+		
+		} else {		
+		n = e.target.id
+		var m1 = n.substr( 4, 1 );
+		m2 = parseInt( m1 ) - 1;
+		etats[ m2 ] = false;
+		deplacement = true;			
+		}
+		}
+		);
+	
+
+trous[6].addEventListener( 'click', function(e) { 
+
+		if ( (compteur < 6) && ( !deplacement ) ) {
+				if ( etats[6] ){
+						alert( 'ACTION IMPOSSIBLE' );
+						return false;
+				}
+		}
+		
+		if ( ( compteur > 5 ) && ( !deplacement ) ) {
+				if ( compteur % 2 == 0 ) {
+						if ( (contexts[6].fillStyle === "rgba(255, 255, 255, 0.6)") || ( !etats[6] ) ) { 
+								alert( 'ACTION IMPOSSIBLE' );
+								return false;
+						}
+				} 	else {
+						if ( (contexts[6].fillStyle === "rgba(187, 255, 119, 0.6)") || ( !etats[6] ) ) {			
+								alert( 'ACTION IMPOSSIBLE' )
+								return false;
+						}
+					}
+		}
+
+		if ( !etats[6] ) {					
+			if ( compteur % 2 == 0 ) {
+			contexts[6].fillStyle = " rgba(187, 255, 119, 0.6) "
+			} else { contexts[6].fillStyle = " rgba(255, 255, 255, 0.6) " }
+		contexts[6].fill();
+		etats[6] = true;
+		compteur ++;
+			if ( deplacement ) {			
+				contexts[ m2 ].fillStyle = " rgba(221, 221, 221, 1) ";
+				contexts[ m2 ].fill();
+				deplacement = false;
+			}
+		
+		} else {		
+		n = e.target.id
+		var m1 = n.substr( 4, 1 );
+		m2 = parseInt( m1 ) - 1;
+		etats[ m2 ] = false;
+		deplacement = true;			
+		}
+		}
+		);
+		
+
+trous[7].addEventListener( 'click', function(e) {
+
+		if ( (compteur < 6) && ( !deplacement ) ) {
+				if ( etats[7] ){
+						alert( 'ACTION IMPOSSIBLE' );
+						return false;
+				}
+		}
+		
+		if ( ( compteur > 5 ) && ( !deplacement ) ) {
+				if ( compteur % 2 == 0 ) {
+						if ( (contexts[7].fillStyle === "rgba(255, 255, 255, 0.6)") || ( !etats[7] ) ) { 
+								alert( 'ACTION IMPOSSIBLE' );
+								return false;
+						}
+				} 	else {
+						if ( (contexts[7].fillStyle === "rgba(187, 255, 119, 0.6)") || ( !etats[7] ) ) {			
+								alert( 'ACTION IMPOSSIBLE' )
+								return false;
+						}
+					}
+		}
+ 
+		if ( !etats[7] ) {					
+			if ( compteur % 2 == 0 ) {
+			contexts[7].fillStyle = " rgba(187, 255, 119, 0.6) "
+			} else { contexts[7].fillStyle = " rgba(255, 255, 255, 0.6) " }
+		contexts[7].fill();
+		etats[7] = true;
+		compteur ++;
+			if ( deplacement ) {			
+				contexts[ m2 ].fillStyle = " rgba(221, 221, 221, 1) ";
+				contexts[ m2 ].fill();
+				deplacement = false;
+			}
+		
+		} else {		
+		n = e.target.id
+		var m1 = n.substr( 4, 1 );
+		m2 = parseInt( m1 ) - 1;
+		etats[ m2 ] = false;
+		deplacement = true;			
+		}
+		}
+		);
+
+
+trous[8].addEventListener( 'click', function(e) {
+
+	if ( (compteur < 6) && ( !deplacement ) ) {
+				if ( etats[8] ){
+						alert( 'ACTION IMPOSSIBLE' );
+						return false;
+				}
+	}
+
+	if ( ( compteur > 5 ) && ( !deplacement ) ) {
+				if ( compteur % 2 == 0 ) {
+						if ( (contexts[8].fillStyle === "rgba(255, 255, 255, 0.6)") || ( !etats[8] ) ) { 
+								alert( 'ACTION IMPOSSIBLE' );
+								return false;
+						}
+				} 	else {
+						if ( (contexts[8].fillStyle === "rgba(187, 255, 119, 0.6)") || ( !etats[8] ) ) {			
+								alert( 'ACTION IMPOSSIBLE' )
+								return false;
+						}
+					}
+		}
+
+		if ( !etats[8] ) {					
+			if ( compteur % 2 == 0 ) {
+			contexts[8].fillStyle = " rgba(187, 255, 119, 0.6) "
+			} else { contexts[8].fillStyle = " rgba(255, 255, 255, 0.6) " }
+		contexts[8].fill();
+		etats[8] = true;
+		compteur ++;
+			if ( deplacement ) {			
+				contexts[ m2 ].fillStyle = " rgba(221, 221, 221, 1) ";
+				contexts[ m2 ].fill();
+				deplacement = false;
+			}
+		
+		} else {		
+		n = e.target.id
+		var m1 = n.substr( 4, 1 );
+		m2 = parseInt( m1 ) - 1;
+		etats[ m2 ] = false;
+		deplacement = true;			
+		}
+		}
+		);
+		
+Reset.addEventListener( "click", function() {
+for ( var k = 0; k < 9; k++ ) {
+contexts[k] = trous[k].getContext("2d");
+contexts[k].fillStyle = " rgba(221, 221, 221, 1) ";		
+contexts[k].fill();
+contexts[k].strokeStyle = "grey";
+contexts[k].beginPath();
+contexts[k].arc(150 ,150, 80, 0, Math.PI*2);
+contexts[k].stroke();
+etats[ k ] = false;
+compteur = 0;
+}	
+}
+)
+
+</script>
+</body>
+</html>
